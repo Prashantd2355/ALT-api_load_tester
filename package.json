@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/Prashantd2355/ALT-api_load_tester/issues"
   },
-  "homepage": "https://github.com/Prashantd2355/ALT-api_load_tester#readme"
+  "homepage": "https://github.com/Prashantd2355/ALT-api_load_tester#readme",
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
 }
