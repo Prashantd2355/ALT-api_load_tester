@@ -1,0 +1,26 @@
+{
+  "name": "alt-api_load_tester",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Prashantd2355/ALT-api_load_tester.git"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript",
+    "testing",
+    "api",
+    "api-load-testing"
+  ],
+  "author": "Dharmil Parekh, Prashant Dhamelia, Kishor Bikram Oli, Ruchi Padhiyar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Prashantd2355/ALT-api_load_tester/issues"
+  },
+  "homepage": "https://github.com/Prashantd2355/ALT-api_load_tester#readme"
+}
