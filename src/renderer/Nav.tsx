@@ -10,12 +10,16 @@ export default function Nav() {
           <img src="logo.svg" alt="logo" className="Nav__logo" />
         </Link>
         <ul className="list">
+        <Link to="/file">
           <li className="list-item">
              <FontAwesomeIcon icon={faFileUpload} size={'lg'} style={{width: '40px'}}/> <span> Add File</span>
           </li>
-          <li className="list-item">
-             <FontAwesomeIcon icon={faCogs} size={'lg'} style={{width: '40px'}}/> <span> Process File</span>
-          </li>
+          </Link>
+          <Link to="/process">
+            <li className="list-item">
+              <FontAwesomeIcon icon={faCogs} size={'lg'} style={{width: '40px'}}/> <span> Process File</span>
+            </li>
+          </Link>
           <li className="list-item">
              <FontAwesomeIcon icon={faChartLine} size={'lg'} style={{width: '40px'}}/> <span> Graph</span>
           </li>
