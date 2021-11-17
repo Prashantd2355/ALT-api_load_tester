@@ -1,6 +1,7 @@
 import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 import Nav from './Nav';
 import File from './file';
+import graph from './graph';
 import Process from './process';
 //import icon from '../../assets/icon.svg';
 import './App.css';
@@ -24,7 +25,8 @@ export default function App() {
         <Switch>
           <Route path="/process" component={Process} />
           <Route path="/file" component={File} />
-          <Route path="/" component={File} />
+          <Route path="/graph" component={graph} />
+          <Route path="/" component={File}/>
         </Switch>
       </div>
     </Router>
