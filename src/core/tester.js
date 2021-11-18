@@ -1,6 +1,5 @@
 const https = require('https');
 const moment = require('moment');
-const _ = require('underscore');
 const argv = require('minimist')(process.argv.slice(2));
 
 (async() => {
