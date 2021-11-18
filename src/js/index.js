@@ -22,7 +22,7 @@
 
                     //looping each row from excel sheet
                     workbook.SheetNames.forEach(function(sheetName) {
-                        debugger;
+
                         var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
                         var json_object = JSON.stringify(XL_row_object);
                         var arr = JSON.parse(json_object);
@@ -49,6 +49,7 @@
                 };
 
                 reader.readAsBinaryString(file);
+
             } else if (file.type === 'application/json') {
                 var reader = new FileReader();
                 reader.addEventListener('load', function() {
@@ -56,7 +57,17 @@
 
                     //loop each record
                     arr.forEach(eachElement => {
+                        var url = eachElement.URL;
+                        var method = eachElement.METHOD;
+                        var header = eachElement.HEADERS;
+                        var body = eachElement.BODY;
 
+                        if (!isValidURL(url)) {
+                            alert('URL not valid: ' + url);
+                        }
+                        if (!methodList.includes(method)) {
+                            alert('Method name not valid: ' + method);
+                        }
                     });
                 });
                 reader.readAsText(upload.files[0]);
