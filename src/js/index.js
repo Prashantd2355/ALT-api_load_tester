@@ -34,11 +34,24 @@
                             var header = eachElement.HEADERS;
                             var body = eachElement.BODY;
 
+                            //validate URL
                             if (!isValidURL(url)) {
                                 alert('URL not valid: ' + url);
                             }
+
+                            //validate method
                             if (!methodList.includes(method)) {
                                 alert('Method name not valid: ' + method);
+                            }
+
+                            //validate header
+                            if (!isValidJSON(header)) {
+                                alert('Header not valid: ' + header);
+                            }
+
+                            //validate body
+                            if (!isValidJSON(body)) {
+                                alert('Body name not valid: ' + body);
                             }
                         });
                     })
@@ -62,12 +75,27 @@
                         var header = eachElement.HEADERS;
                         var body = eachElement.BODY;
 
+                        //validate URL
                         if (!isValidURL(url)) {
                             alert('URL not valid: ' + url);
                         }
+
+                        //validate method name
                         if (!methodList.includes(method)) {
                             alert('Method name not valid: ' + method);
                         }
+
+                        //validate header
+                        if (!isValidJSON(header)) {
+                            alert('Header not valid: ' + header);
+                        }
+
+                        //validate body
+                        if (!isValidJSON(body)) {
+                            alert('Body name not valid: ' + body);
+                        }
+
+
                     });
                 });
                 reader.readAsText(upload.files[0]);
@@ -146,7 +174,18 @@ function isValidURL(string) {
 
 
 function validateMethods(methodName) {
+    //todo
+}
 
+
+//method to validate if the input header/body are valid json
+function isValidJSON(str) {
+    try {
+        var a = JSON.parse(str);
+        return true;
+    } catch (e) {
+        return false;
+    }
 }
 
 /** HELPER METHODS ENDS HERE */
