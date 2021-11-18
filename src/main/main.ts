@@ -27,6 +27,12 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
+ipcMain.handle('process-data',(event, arg)=>{
+  console.log('Event :', event);
+  console.log('Arg :', arg);
+  return 'process-data-called'
+})
+
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;
   console.log(msgTemplate(arg));
