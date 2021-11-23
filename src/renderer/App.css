@@ -6,7 +6,6 @@
 body {
     margin: 0px;
     background-color: rgb(255, 255, 255);
-    
 }
 
 body>div {
@@ -31,7 +30,7 @@ nav {
     font-family: Akzidenz, "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     font-weight: bold;
-    color: rgb(11, 59, 53);
+    color: rgb(11, 59, 53) !important;
 }
 
 .list-item:hover {
@@ -44,19 +43,36 @@ nav {
     list-style: none;
     flex-direction: column;
 }
-a{
-    color :rgb(11, 59, 53);
-    text-decoration:none
+
+a {
+    color: rgb(11, 59, 53) !important;
+    text-decoration: none;
 }
-a.active{
+
+a.active {
+    color: #06d6a0!important;
+}
+
+.card {
+    background: #fff !important;
+    border-radius: 4px !important;
+    display: inline-block !important;
+    width: 100%;
+    position: relative !important;
+}
+
+.text-local-primary {
     color: #06d6a0;
 }
-/* a:hover{
-    color: #481daa;
-} */
-.Hello {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
+
+.text-purple {
+    color: purple;
+}
+
+.card {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.23) !important;
+}
+
+.card:hover {
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
 }
