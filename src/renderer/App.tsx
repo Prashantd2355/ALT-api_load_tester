@@ -5,6 +5,17 @@ import graph from './graph';
 import Process from './process-data/index';
 //import icon from '../../assets/icon.svg';
 import './App.css';
+import './bootstrap-local.min.css';
+// const Hello = () => {
+//   return (
+//     <div className="container">
+//       <div className="Hello">
+//         <img width="200px" alt="icon" src={icon} />
+//       </div>
+//       <h1>electron-react-boilerplate</h1>
+//     </div>
+//   );
+// };
 
 export default function App() {
   return (
