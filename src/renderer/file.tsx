@@ -12,7 +12,6 @@ export default function File() {
   }
 
   function generateExcelFile() {
-    console.log('clicked');
     const wb = XLSX.utils.book_new();
     wb.Props = {
       Title: 'ALT Excel File',
@@ -62,16 +61,16 @@ export default function File() {
   }
 
   function handleChange(files: any) {
-    console.log(files);
     const methodList = ['GET', 'POST', 'PUT', 'DELETE'];
-
 
     if (files[0].type === 'application/json') {
       const reader = new FileReader();
       reader.addEventListener('load', function () {
-        debugger;
-        const data = reader.result;
-        const arr = JSON.parse(data);
+        const data: string | undefined = reader.result?.toString();
+        let arr;
+        if (data !== undefined) {
+          arr = JSON.parse(data);
+        }
 
         // loop each record
         arr.forEach((eachElement: any) => {
