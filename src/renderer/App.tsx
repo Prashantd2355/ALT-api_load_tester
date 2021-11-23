@@ -5,7 +5,7 @@ import graph from './graph';
 import Process from './process';
 //import icon from '../../assets/icon.svg';
 import './App.css';
-
+import './bootstrap-local.min.css';
 // const Hello = () => {
 //   return (
 //     <div className="container">
