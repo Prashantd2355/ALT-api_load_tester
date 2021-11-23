@@ -94,8 +94,6 @@
                         if (!isValidJSON(body)) {
                             alert('Body name not valid: ' + body);
                         }
-
-
                     });
                 });
                 reader.readAsText(upload.files[0]);
