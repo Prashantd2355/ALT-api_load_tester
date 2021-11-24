@@ -55,7 +55,8 @@
             "gatekeeperAssess": false
         },
         "dmg": {
-            "contents": [{
+            "contents": [
+                {
                     "x": 130,
                     "y": 220
                 },
@@ -142,6 +143,7 @@
         "@types/react-dom": "^17.0.10",
         "@types/react-router": "^5.1.17",
         "@types/react-router-dom": "^5.3.2",
+        "@types/react-table": "^7.7.8",
         "@types/react-test-renderer": "^17.0.1",
         "@types/terser-webpack-plugin": "^5.0.4",
         "@types/webpack-env": "^1.16.3",
@@ -234,15 +236,17 @@
     },
     "browserslist": [],
     "prettier": {
-        "overrides": [{
-            "files": [
-                ".prettierrc",
-                ".eslintrc"
-            ],
-            "options": {
-                "parser": "json"
+        "overrides": [
+            {
+                "files": [
+                    ".prettierrc",
+                    ".eslintrc"
+                ],
+                "options": {
+                    "parser": "json"
+                }
             }
-        }],
+        ],
         "singleQuote": true
     },
     "husky": {

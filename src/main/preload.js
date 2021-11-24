@@ -1,10 +1,11 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
-    processData: () => {
-        ipcRenderer.invoke('process-data', 'ping-me')
-            .then((data) => {
-                console.log(data);
-            })
-    }
+  send: (channel, data) => {
+      // whitelist channels
+      let validChannels = ["process-data"];
+      if (validChannels.includes(channel)) {
+          ipcRenderer.send(channel, data);
+      }
+  }
 });

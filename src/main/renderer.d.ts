@@ -1,5 +1,5 @@
 export interface IElectronAPI {
-  processData: () => Promise<void>,
+  send: (event, arg) => Promise<void>,
 }
 
 declare global {

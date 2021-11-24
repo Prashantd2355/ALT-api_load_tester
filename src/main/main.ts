@@ -27,7 +27,7 @@ export default class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.handle('process-data',(event, arg)=>{
+ipcMain.on('process-data',(event, arg)=>{
   console.log('Event :', event);
   console.log('Arg :', arg);
   return 'process-data-called'
