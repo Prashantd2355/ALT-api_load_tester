@@ -1,9 +1,9 @@
 export interface IElectronAPI {
-  send: (event, arg) => Promise<void>,
+  processData: (isBulk: boolean, reqObj: any) => Promise<any[]>;
 }
 
 declare global {
   interface Window {
-    electronAPI: IElectronAPI
+    electronAPI: IElectronAPI;
   }
 }

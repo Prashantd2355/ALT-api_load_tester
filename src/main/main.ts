@@ -17,6 +17,8 @@ import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
+import { generateAndTriggerLoad } from '../core/load-generator';
+
 export default class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -26,12 +28,16 @@ export default class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
+// ipcMain.handle('process-data-bulk', (event,arg)=>{
+//
+// })
 
-ipcMain.on('process-data',(event, arg)=>{
-  console.log('Event :', event);
-  console.log('Arg :', arg);
-  return 'process-data-called'
-})
+ipcMain.handle('process-data', (_event, _isBulk, data) => {
+  const promises = data.map((d: any) => {
+    return generateAndTriggerLoad(d);
+  });
+  return Promise.all(promises);
+});
 
 ipcMain.on('ipc-example', async (event, arg) => {
   const msgTemplate = (pingPong: string) => `IPC test: ${pingPong}`;

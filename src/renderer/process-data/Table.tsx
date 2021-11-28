@@ -1,14 +1,12 @@
-import { useTable } from 'react-table'
-export default function Table({ columns, data }:any) {
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow
-  } = useTable({
-    columns, data
-  })
+/* eslint-disable react/jsx-props-no-spreading */
+import { useTable } from 'react-table';
+
+export default function Table({ columns, data }: any) {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({
+      columns,
+      data,
+    });
   // Render the UI for your table
   return (
     <table {...getTableProps()}>
@@ -23,17 +21,16 @@ export default function Table({ columns, data }:any) {
       </thead>
       <tbody {...getTableBodyProps()}>
         {rows.map((row: any) => {
-          prepareRow(row)
+          prepareRow(row);
           return (
             <tr {...row.getRowProps()}>
               {row.cells.map((cell: any) => {
-                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
               })}
             </tr>
-          )
+          );
         })}
-        {rows.length < 1?<span>No records found</span>:''}
       </tbody>
     </table>
-  )
+  );
 }
