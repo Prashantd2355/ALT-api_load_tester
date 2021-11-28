@@ -62,7 +62,7 @@ export default function File() {
 
   function handleChange(files: any) {
     const methodList = ['GET', 'POST', 'PUT', 'DELETE'];
-
+    console.log('files :', files);
     if (files[0].type === 'application/json') {
       const reader = new FileReader();
       reader.addEventListener('load', function () {
@@ -71,7 +71,7 @@ export default function File() {
         if (data !== undefined) {
           arr = JSON.parse(data);
         }
-
+        console.log('Arr', arr);
         // loop each record
         arr.forEach((eachElement: any) => {
           const url = eachElement.URL;

@@ -2,7 +2,7 @@ import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 import Nav from './Nav';
 import File from './file';
 import graph from './graph';
-import Process from './process';
+import Process from './process-data/index';
 //import icon from '../../assets/icon.svg';
 import './App.css';
 import './bootstrap-local.min.css';
