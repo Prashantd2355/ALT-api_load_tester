@@ -1,6 +1,7 @@
 import { Bar, Line, Pie } from 'react-chartjs-2';
 
 export default function graph() {
+	
 	const data = {
 		labels: [[ 'API A' ],[ 'API B' ], [ 'API C' ]],
 		datasets: [
