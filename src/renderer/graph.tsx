@@ -1,7 +1,10 @@
 import { Bar, Line, Pie } from 'react-chartjs-2';
+import jsPDF from 'jspdf';
+import pdfMake from 'pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import htmlToPdfmake from 'html-to-pdfmake';
 
 export default function graph() {
-	
 	const data = {
 		labels: [[ 'API A' ],[ 'API B' ], [ 'API C' ]],
 		datasets: [
@@ -46,6 +49,21 @@ export default function graph() {
 			}
 		]
 	};
+
+	function downloadpdf() {
+
+		const doc = new jsPDF();
+         
+		//get table html
+		const pdfTable = document.getElementById('divToPrint');
+		//html to pdf format
+		var html = htmlToPdfmake(pdfTable.innerHTML);
+	  
+		const documentDefinition = { content: html };
+		pdfMake.vfs = pdfFonts.pdfMake.vfs;
+		pdfMake.createPdf(documentDefinition).open();
+	
+	}
 
 	return (
 		<div>
@@ -229,6 +247,20 @@ export default function graph() {
 				</div>
 			</div>
 
+			<button
+              type="button"
+              onClick={downloadpdf}
+              className="btn btn-default btn-lg m-5"
+              style={{
+                background: 'transparent',
+                fontSize: '25px',
+                border: '1px solid gray',
+                borderColor: 'gray',
+              }}
+            >
+              <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
+              Export to pdf
+            </button>
 		</div>
 	);
 }

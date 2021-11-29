@@ -4,6 +4,24 @@ import XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
 export default function File() {
+  // method to validate URLs
+  function isValidURL(url: string) {
+    const res = url.match(
+      /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)/g
+    );
+    return res !== null;
+  }
+
+  // method to validate if the input header/body are valid json
+  function isValidJSON(str: string) {
+    try {
+      JSON.parse(str);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   function s2ab(s: string) {
     const buf = new ArrayBuffer(s.length); // convert s to arrayBuffer
     const view = new Uint8Array(buf); // create uint8array as viewer
@@ -62,7 +80,7 @@ export default function File() {
 
   function handleChange(files: any) {
     const methodList = ['GET', 'POST', 'PUT', 'DELETE'];
-
+    console.log('files :', files);
     if (files[0].type === 'application/json') {
       const reader = new FileReader();
       reader.addEventListener('load', function () {
@@ -71,7 +89,7 @@ export default function File() {
         if (data !== undefined) {
           arr = JSON.parse(data);
         }
-
+        console.log('Arr', arr);
         // loop each record
         arr.forEach((eachElement: any) => {
           const url = eachElement.URL;
@@ -81,21 +99,25 @@ export default function File() {
 
           // validate URL
           if (!isValidURL(url)) {
+            // eslint-disable-next-line no-alert
             alert(`URL not valid: ${url}`);
           }
 
           // validate method name
           if (!methodList.includes(method)) {
+            // eslint-disable-next-line no-alert
             alert(`Method name not valid: ${method}`);
           }
 
           // validate header
           if (!isValidJSON(header)) {
+            // eslint-disable-next-line no-alert
             alert(`Header not valid: ${header}`);
           }
 
           // validate body
           if (!isValidJSON(body)) {
+            // eslint-disable-next-line no-alert
             alert(`Body name not valid: ${body}`);
           }
         });
@@ -105,15 +127,49 @@ export default function File() {
   }
   return (
     <div>
-      <button type="button" onClick={generateExcelFile}>
-        Generate Excel File
-      </button>
+      <div className="row" style={{ padding: 'inherit' }}>
+        <div className="col-md-4">
+          <div className="">
+            <button
+              type="button"
+              onClick={generateExcelFile}
+              className="btn btn-default btn-lg m-5"
+              style={{
+                background: 'transparent',
+                fontSize: '25px',
+                border: '1px solid gray',
+                borderColor: 'gray',
+              }}
+            >
+              <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
+              Download Excel File
+            </button>
 
-      <button type="button" onClick={generateJSONFile}>
-        Generate JSON File
-      </button>
+            <button
+              type="button"
+              onClick={generateJSONFile}
+              className="btn btn-default btn-lg m-5"
+              style={{
+                background: 'transparent',
+                fontSize: '25px',
+                border: '1px solid gray',
+                borderColor: 'gray',
+              }}
+            >
+              <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
+              Download JSON File
+            </button>
 
-      <input type="file" onChange={(e) => handleChange(e.target.files)} />
+            <h5>Upload File</h5>
+
+            <input
+              type="file"
+              className="form-control"
+              onChange={(e) => handleChange(e.target.files)}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
