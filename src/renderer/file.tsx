@@ -127,15 +127,49 @@ export default function File() {
   }
   return (
     <div>
-      <button type="button" onClick={generateExcelFile}>
-        Generate Excel File
-      </button>
+      <div className="row" style={{ padding: 'inherit' }}>
+        <div className="col-md-4">
+          <div className="">
+            <button
+              type="button"
+              onClick={generateExcelFile}
+              className="btn btn-default btn-lg m-5"
+              style={{
+                background: 'transparent',
+                fontSize: '25px',
+                border: '1px solid gray',
+                borderColor: 'gray',
+              }}
+            >
+              <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
+              Download Excel File
+            </button>
 
-      <button type="button" onClick={generateJSONFile}>
-        Generate JSON File
-      </button>
+            <button
+              type="button"
+              onClick={generateJSONFile}
+              className="btn btn-default btn-lg m-5"
+              style={{
+                background: 'transparent',
+                fontSize: '25px',
+                border: '1px solid gray',
+                borderColor: 'gray',
+              }}
+            >
+              <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
+              Download JSON File
+            </button>
 
-      <input type="file" onChange={(e) => handleChange(e.target.files)} />
+            <h5>Upload File</h5>
+
+            <input
+              type="file"
+              className="form-control"
+              onChange={(e) => handleChange(e.target.files)}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
