@@ -45,7 +45,7 @@ nav {
 }
 a {
 	color: rgb(11, 59, 53) !important;
-	text-decoration: none;
+	text-decoration: none !important;
 }
 a.active {
 	color: #06d6a0;

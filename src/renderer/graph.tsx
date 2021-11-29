@@ -2,29 +2,34 @@ import { Bar, Line, Pie } from 'react-chartjs-2';
 
 export default function graph() {
 	const data = {
-		labels: [[ 'API A 200','API A 400' ],[ 'API B' ]],
+		labels: [[ 'API A' ],[ 'API B' ], [ 'API C' ]],
 		datasets: [
 			{
-				label: 'Response codes per requests 1',
-				data:  [ 9000, 100 ],
+				label: 'status 200',
+				data:  [ 9000, 7000, 7500 ],
 				fill: false,
 				tension: 0.1,
-        backgroundColor: [
-          'red',
-          'rgb(255, 159, 64)'
-        ],
-        barThickness :20
+				backgroundColor: '#F93c6b',
+				barThickness :20,
+				spanGaps : 2
 			},
-      {
-				label: 'Response codes per requests 2',
-				data: [ 8500, 100 ],
+      		{
+				label: 'status 504',
+				data: [ 400, 1000, 100 ],
 				fill: false,
-				backgroundColor: [
-          'green',
-          'rgb(255, 159, 64)'
-        ],
-        barThickness :20,
-				tension: 0.1
+				backgroundColor: '#07c99c',
+				barThickness :20,
+				tension: 0.1,
+				spanGaps : 2
+			},
+			{
+				label: 'status 503',
+				data: [ 400, 1900, 2300 ],
+				fill: false,
+				backgroundColor: 'yellow',
+				barThickness :20,
+				tension: 0.1,
+				spanGaps : 2
 			}
 		]
 	};
@@ -34,8 +39,8 @@ export default function graph() {
 		datasets: [
 			{
 				label: 'Requests Summary',
-				backgroundColor: [ '#06d6a0', '#dc3545' ],
-				hoverBackgroundColor: [ '#06d6a0', '#dc3545' ],
+				backgroundColor: [ '#07c99c', '#F93c6b' ],
+				hoverBackgroundColor: [ '#07c99c', '#F93c6b' ],
 				data: [ 850, 150 ]
 			}
 		]
@@ -93,7 +98,7 @@ export default function graph() {
 
 			<div className="row mb-4" style={{ padding: 'inherit' }}>
 				<div className="col-md-4">
-					<div className="card">
+					<div className="card" style={{height : '485.2px' }}>
 						<div
 							className="card-header text-center"
 							style={{ background: 'transparent', fontSize: '25px', fontWeight: 500, border: 'none' }}
@@ -105,90 +110,120 @@ export default function graph() {
 						</div>
 					</div>
 				</div>
-        <div className="col-md-8" style={{ height: 'auto' }}>
-          <div className="card">
-            <div
-              className="card-header text-center"
-              style={{ background: 'transparent', fontSize: '25px', fontWeight: 500, border: 'none' }}
-            >
-              Latency Comparison
-            </div>
-            <div className="card-body">
-              <Line
-                data={{
-                  labels: [ '2:00:00', '2:00:30', '2:01:00', '2:01:30' ],
-                  datasets: [
-                    {
-                      label: 'API A',
-                      data: [ 5, 6, 7 ],
-                      borderColor: 'rgb(75, 192, 192)',
-                      fill: false,
-                      borderWidth: 1
-                    },
-                    {
-                      label: 'API B',
-                      data: [ 3, 2, 1 ],
-                      borderColor: '#dc3545',
-                      fill: false,
-                      borderWidth: 1
-                    }
-                  ]
-                }}
-              />
-            </div>
-          </div>
+        		<div className="col-md-8" style={{ height: 'auto' }}>
+					<div className="card">
+						<div
+						className="card-header text-center"
+						style={{ background: 'transparent', fontSize: '25px', fontWeight: 500, border: 'none' }}
+						>
+						Latency Comparison
+						</div>
+						<div className="card-body">
+						<Line
+							data={{
+							labels: [ '2:00:00', '2:00:30', '2:01:00', '2:01:30' ],
+							datasets: [
+									{
+										label: 'API A',
+										data: [ 3.3, 2.5, 3.5, 4.5 ],
+										backgroundColor	: '#F93c6b',
+										fill: false,
+										borderWidth: 1,
+										borderColor : '#F93c6b'
+									},
+									{
+										label: 'API B',
+										data: [ 2.4, 3.4, 1.7, 2.7 ],
+										backgroundColor: '#07c99c',
+										fill: false,
+										borderWidth: 1,
+										borderColor : '#07c99c'
+									},
+									{
+										label: 'API C',
+										data: [ 2, 2, 2.5, 3 ],
+										backgroundColor: 'yellow',
+										fill: false,
+										borderWidth: 1,
+										borderColor : 'yellow'
+									}
+							]
+							}}
+						/>
+						</div>
+					</div>
 				</div>
 			</div>
 
-			<div className="row" style={{ padding: 'inherit' }}>
-				<div className="col-md-6 card m-2" style={{ height: 'auto' }}>
-					<div
-						className="card-header text-center"
-						style={{ background: 'transparent', fontSize: '25px', fontWeight: 500, border: 'none' }}
-					>
-						Response time Comparison
-					</div>
-					<div className="card-body">
-          <Line
-							data={{
+			<div className="row mb-4" style={{ padding: 'inherit' }}>
+				<div className="col-md-6" style={{ height: 'auto' }}>
+					<div className="card">
+						<div
+							className="card-header text-center"
+							style={{ background: 'transparent', fontSize: '25px', fontWeight: 500, border: 'none' }}
+						>
+							Response time Comparison
+						</div>
+						<div className="card-body">
+						<Line
+								data={{
 								labels: [ '2:00:00', '2:00:30', '2:01:00', '2:01:30' ],
 								datasets: [
-									{
-										label: '',
-										data: [ 5, 6, 7 ]
-									},
-									{
-										label: '',
-										data: [ 3, 2, 1 ]
-									}
+										{
+											label: 'API A',
+											data: [ 2, 2, 3, 5 ],
+											backgroundColor	: '#F93c6b',
+											fill: false,
+											borderWidth: 1,
+											borderColor : '#F93c6b'
+										},
+										{
+											label: 'API B',
+											data: [ 2.2, 3.2, 4, 5 ],
+											backgroundColor: '#07c99c',
+											fill: false,
+											borderWidth: 1,
+											borderColor : '#07c99c'
+										},
+										{
+											label: 'API C',
+											data: [ 2, 2, 2, 2 ],
+											backgroundColor: 'yellow',
+											fill: false,
+											borderWidth: 1,
+											borderColor : 'yellow'
+										}
 								]
-							}}
-						/>
+								}}
+							/>
+						</div>
 					</div>
 				</div>
-				<div className="col-md-6 card m-2" style={{ height: 'auto' }}>
-					<div
-						className="card-header text-center"
-						style={{ background: 'transparent', fontSize: '25px', fontWeight: 500, border: 'none' }}
-					>
-						Response codes per requests
-					</div>
-					<div className="card-body">
-						<Bar
-							data={data}
-							options={{
-								plugins: {
-									title: {
-										display: true,
-										text: 'Response codes per requests'
-									},
-									legend: {
-										display: true,
-										position: 'bottom'
+				<div className="col-md-6" style={{ height: 'auto' }}>
+					<div className="card">
+						<div
+							className="card-header text-center"
+							style={{ background: 'transparent', fontSize: '25px', fontWeight: 500, border: 'none' }}
+						>
+							Response codes per requests
+						</div>
+						<div className="card-body">
+							<Bar
+								data={data}
+								options={{
+									plugins: {
+										title: {
+											display: true,
+											text: 'Status Codes and Error Distribution'
+										},
+										legend: {
+											display: true,
+											position: 'bottom'
+										}
 									}
-								}
-							}}
-						/>
+								}}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
