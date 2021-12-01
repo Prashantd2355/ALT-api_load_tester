@@ -85,39 +85,105 @@ export default function File() {
       const reader = new FileReader();
       reader.addEventListener('load', function () {
         const data: string | undefined = reader.result?.toString();
-        let arr;
+        /// let arr: object[];
+        let mainArr: unknown[] = [];
+
         if (data !== undefined) {
-          arr = JSON.parse(data);
+          mainArr = JSON.parse(data);
         }
-        console.log('Arr', arr);
+
+        // /// /
+
+        // // eslint-disable-next-line no-restricted-syntax
+        // for (const [index, val] of arr.entries()) {
+        //   debugger;
+
+        //   console.log('item:', { index, val });
+
+        //   try {
+        //     const url = val.URL;
+        //     const method = val.METHOD;
+        //     const header = val.HEADERS;
+        //     const body = val.BODY;
+
+        //     const idx = arr.indexOf(val);
+
+        //     if (idx !== -1) arr.splice(idx, 1);
+        //     // validate URL
+        //     if (!isValidURL(url)) {
+        //       // eslint-disable-next-line no-alert
+        //       alert(`URL not valid: ${url}`);
+        //     }
+
+        //     // validate method name
+        //     if (!methodList.includes(method)) {
+        //       // eslint-disable-next-line no-alert
+        //       alert(`Method name not valid: ${method}`);
+        //     }
+
+        //     // validate header
+        //     if (!isValidJSON(header)) {
+        //       // eslint-disable-next-line no-alert
+        //       alert(`Header not valid: ${header}`);
+        //     }
+
+        //     // validate body
+        //     if (!isValidJSON(body)) {
+        //       // eslint-disable-next-line no-alert
+        //       alert(`Body name not valid: ${body}`);
+        //     }
+        //   } catch (e) {
+        //     console.log((e as Error).message);
+        //   }
+
+        //   if (index === 1) {
+        //     console.log('break!');
+        //     break;
+        //   }
+        // }
+
+        /// /
+
+        // console.log('Arr', arr);
         // loop each record
-        arr.forEach((eachElement: any) => {
+        mainArr.forEach((eachElement: any) => {
+          debugger;
           const url = eachElement.URL;
           const method = eachElement.METHOD;
           const header = eachElement.HEADERS;
           const body = eachElement.BODY;
 
+          const arr: unknown[] = mainArr;
+
           // validate URL
           if (!isValidURL(url)) {
-            // eslint-disable-next-line no-alert
+            const idx = arr.indexOf(eachElement);
+
+            if (idx !== -1) arr.splice(idx, 1);
             alert(`URL not valid: ${url}`);
           }
 
           // validate method name
           if (!methodList.includes(method)) {
-            // eslint-disable-next-line no-alert
+            const idx = arr.indexOf(eachElement);
+
+            if (idx !== -1) arr.splice(idx, 1);
             alert(`Method name not valid: ${method}`);
           }
 
           // validate header
           if (!isValidJSON(header)) {
-            // eslint-disable-next-line no-alert
+            const idx = arr.indexOf(eachElement);
+
+            if (idx !== -1) arr.splice(idx, 1);
             alert(`Header not valid: ${header}`);
           }
 
           // validate body
           if (!isValidJSON(body)) {
-            // eslint-disable-next-line no-alert
+            const idx = arr.indexOf(eachElement);
+
+            if (idx !== -1) arr.splice(idx, 1);
             alert(`Body name not valid: ${body}`);
           }
         });
