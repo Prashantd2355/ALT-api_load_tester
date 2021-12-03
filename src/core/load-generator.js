@@ -11,7 +11,7 @@ function generateAndTriggerLoad(data) {
             .substring(0, data.url.lastIndexOf('/'))
             .replace(/^https:\/\/|http:\/\//gm, '');
         const responses = [];
-        for (let i = 0; i < data.request; i++) {
+        for (let i = 0; i < data.requests; i++) {
             responses.push(triggerTest(url, path, method));
         }
         return Promise.all(responses)

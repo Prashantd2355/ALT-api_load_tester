@@ -1,47 +1,23 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+// eslint-disable @typescript-eslint/no-explicit-any
 import { InputGroup, FormControl, Form } from 'react-bootstrap';
-import { useState, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
+import { AppContext } from 'renderer/context';
 import Table from './Table';
 
 export default function Process({ isBulk = true }: any) {
-  const data: any[] = [
-    {
-      url: 'https://6164482fb55edc00175c1e7c.mockapi.io/user',
-      method: 'GET',
-      headers: '{}',
-      body: '{}',
-      request: 10,
-    },
-    {
-      url: 'https://6164482fb55edc00175c1e7c.mockapi.io/user',
-      method: 'GET',
-      headers: '{}',
-      body: '{}',
-      request: 10,
-    },
-    {
-      url: 'https://6164482fb55edc00175c1e7c.mockapi.io/user',
-      method: 'GET',
-      headers: '{}',
-      body: '{}',
-      request: 10,
-    },
-  ];
+  const { state, dispatch } = React.useContext(AppContext);
   const [responseData, setResponseData] = useState<any[]>([]);
-  const [url, setUrl] = useState(
-    'https://6164482fb55edc00175c1e7c.mockapi.io/user'
-  );
+  const [url, setUrl] = useState('');
   const [method, setMethod] = useState('');
   const [body, setBody] = useState('{}');
   const [header, setHeader] = useState('{}');
-  const [request, setRequest] = useState(0);
+  const [requests, setRequest] = useState(0);
   const [columns, setColumns] = useState<any[]>([]);
 
   const processUrl = async () => {
     let results;
     if (isBulk) {
-      results = await window.electronAPI.processData(isBulk, data);
+      results = await window.electronAPI.processData(isBulk, state.data);
     } else {
       results = await window.electronAPI.processData(isBulk, [
         {
@@ -49,38 +25,41 @@ export default function Process({ isBulk = true }: any) {
           method,
           body,
           header,
-          request,
+          requests,
         },
       ]);
-    }
-    console.log('results', results);
-    const newColumns: any[] = [];
-    Object.keys(results[0][0]).forEach((key) => {
-      newColumns.push({
-        Header: key.toUpperCase(),
-        accessor: key,
+      const newColumns: any[] = [];
+      Object.keys(results[0][0]).forEach((key) => {
+        newColumns.push({
+          Header: key.toUpperCase(),
+          accessor: key,
+        });
       });
-    });
-    setColumns(newColumns);
-
+      setColumns(newColumns);
+    }
     const newResult = results.map((r: any) => {
       r.body = 'body';
       return r;
     });
     setResponseData(newResult);
+    dispatch({
+      type: 'appendResponse',
+      payload: results,
+    });
+    console.log('State:', state);
   };
   useMemo(() => {
-    if (data.length) {
-      const newColumn = Object.keys(data[0]).map((key) => {
+    if (state.data.length) {
+      const newColumn = Object.keys(state.data[0]).map((key) => {
         return {
           Header: key.toUpperCase(),
           accessor: key,
         };
       });
-      setResponseData(data);
+      setResponseData(state.data);
       setColumns(newColumn);
     }
-  }, []);
+  }, [state.data]);
 
   return (
     <div
@@ -157,7 +136,7 @@ export default function Process({ isBulk = true }: any) {
           <div className="col-md-1">
             <InputGroup>
               <FormControl
-                value={request}
+                value={requests}
                 onChange={(e: any) => {
                   setRequest(e.target.value);
                 }}
@@ -179,7 +158,7 @@ export default function Process({ isBulk = true }: any) {
           </div>
         </div>
       )}
-      {responseData.length === 0 && data.length === 0 ? (
+      {responseData.length === 0 && state.data.length === 0 ? (
         ''
       ) : (
         <Table columns={columns} data={responseData} />

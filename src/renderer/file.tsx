@@ -1,9 +1,27 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-bitwise */
 /* eslint-disable no-plusplus */
 import XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { AppContext } from './context';
 
 export default function File() {
+  const { dispatch } = React.useContext(AppContext);
+  const [processParams, setProcessParams] = useState<any[]>([]);
+  const history = useHistory();
+
+  function handleClick() {
+    // to store data of excel
+    dispatch({
+      type: 'isBulk',
+      payload: processParams,
+    });
+    // to go to process-data page
+    const path = `/process`;
+    history.push(path);
+  }
   // method to validate URLs
   function isValidURL(url: string) {
     const res = url.match(
@@ -38,7 +56,7 @@ export default function File() {
     };
     wb.SheetNames.push('Sheet');
 
-    const wsData = [['URL', 'METHOD', 'HEADERS', 'BODY']]; // a row with 4 columns
+    const wsData = [['url', 'method', 'headers', 'body', 'requests']]; // a row with 4 columns
 
     const ws = XLSX.utils.aoa_to_sheet(wsData);
 
@@ -55,16 +73,18 @@ export default function File() {
   function generateJSONFile() {
     const apiJSONFormat = [
       {
-        URL: 'https://www.example.com/getUsers/',
-        METHOD: 'GET',
-        HEADERS: '{}',
-        BODY: '{}',
+        url: 'https://www.example.com/getUsers/',
+        method: 'GET',
+        headers: '{}',
+        body: '{}',
+        requests: 1,
       },
       {
-        URL: 'https://www.example.com/createUsers/',
-        METHOD: 'POST',
-        HEADERS: '{}',
-        BODY: '{}',
+        url: 'https://www.example.com/createUsers/',
+        method: 'POST',
+        headers: '{}',
+        body: '{}',
+        requests: 1,
       },
     ];
     const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(
@@ -80,22 +100,22 @@ export default function File() {
 
   function handleChange(files: any) {
     const methodList = ['GET', 'POST', 'PUT', 'DELETE'];
-    console.log('files :', files);
+    let apiList: any[];
     if (files[0].type === 'application/json') {
       const reader = new FileReader();
-      reader.addEventListener('load', function () {
+      reader.addEventListener('load', () => {
         const data: string | undefined = reader.result?.toString();
-        let arr;
         if (data !== undefined) {
-          arr = JSON.parse(data);
+          apiList = JSON.parse(data);
+        } else {
+          alert('Empty data');
         }
-        console.log('Arr', arr);
         // loop each record
-        arr.forEach((eachElement: any) => {
-          const url = eachElement.URL;
-          const method = eachElement.METHOD;
-          const header = eachElement.HEADERS;
-          const body = eachElement.BODY;
+        apiList.forEach((eachElement: any) => {
+          const { url } = eachElement;
+          const { method } = eachElement;
+          const header = eachElement.headers;
+          const { body } = eachElement;
 
           // validate URL
           if (!isValidURL(url)) {
@@ -123,6 +143,9 @@ export default function File() {
         });
       });
       reader.readAsText(files[0]);
+      reader.onloadend = () => {
+        setProcessParams(apiList);
+      };
     }
   }
   return (
@@ -167,6 +190,9 @@ export default function File() {
               className="form-control"
               onChange={(e) => handleChange(e.target.files)}
             />
+            <button type="button" onClick={handleClick}>
+              Upload
+            </button>
           </div>
         </div>
       </div>
