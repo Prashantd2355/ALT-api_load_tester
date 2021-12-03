@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-bitwise */
 /* eslint-disable no-plusplus */
@@ -119,25 +120,21 @@ export default function File() {
 
           // validate URL
           if (!isValidURL(url)) {
-            // eslint-disable-next-line no-alert
             alert(`URL not valid: ${url}`);
           }
 
           // validate method name
           if (!methodList.includes(method)) {
-            // eslint-disable-next-line no-alert
             alert(`Method name not valid: ${method}`);
           }
 
           // validate header
           if (!isValidJSON(header)) {
-            // eslint-disable-next-line no-alert
             alert(`Header not valid: ${header}`);
           }
 
           // validate body
           if (!isValidJSON(body)) {
-            // eslint-disable-next-line no-alert
             alert(`Body name not valid: ${body}`);
           }
         });
