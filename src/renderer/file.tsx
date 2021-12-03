@@ -115,7 +115,7 @@ export default function File() {
         } else {
           alert('Empty data');
         }
-        console.log('Arr', arr);
+        //console.log('Arr', arr);
 
         // loop each record
         apiList.forEach((eachElement: any) => {
