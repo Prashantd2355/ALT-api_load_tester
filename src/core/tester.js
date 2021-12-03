@@ -1,45 +1,65 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable no-param-reassign */
+/* eslint-disable prettier/prettier */
 const https = require('https');
-const moment = require('moment');
-const _ = require('underscore');
-const argv = require('minimist')(process.argv.slice(2));
 
-(async() => {
+function triggerTest(host, path, method) {
+    const body = [];
     const timings = {
         startAt: process.hrtime(),
-        dnsLookup: undefined,
+        dnsLookupAt: undefined,
         tcpConnectionAt: undefined,
-        tlsConnectionAt: undefined,
+        tlsHandshakeAt: undefined,
         firstByteAt: undefined,
-        endAt: undefined
-    }
-    var options = {
-        host: argv.url,
-        port: 443,
-        path: argv.path,
-        method: argv.method
+        endAt: undefined,
+        body: undefined,
+        statusCode: undefined,
     };
-    const req = https.request(options, (res) => {
-        res.on('data', () => {})
-        res.on('end', () => {
-            timings.endAt = process.hrtime();
-            process.stdout.write(JSON.stringify(timings));
-            process.exitCode = 0;
-        })
+    const options = {
+        host,
+        port: 443,
+        path,
+        method,
+    };
+    // eslint-disable-next-line promise/param-names
+    return new Promise((resolve, reject) => {
+        const req = https.request(options, (res) => {
+            timings.statusCode = res.statusCode;
+            res.once('readable', () => {
+                timings.firstByteAt = process.hrtime();
+            });
+            res.on('data', (chunk) => {
+                body.push(chunk);
+            });
+            res.on('end', () => {
+                timings.endAt = process.hrtime();
+                try {
+                    timings.body = JSON.parse(Buffer.concat(body).toString());
+                } catch (error) {
+                    timings.body.error = Buffer.concat(body).toString();
+                }
+                return resolve(timings);
+            });
+        });
+        req.on('socket', (socket) => {
+            socket.on('lookup', () => {
+                timings.dnsLookupAt = process.hrtime();
+            });
+            socket.on('connect', () => {
+                timings.tcpConnectionAt = process.hrtime();
+            });
+            socket.on('secureConnect', () => {
+                timings.tlsHandshakeAt = process.hrtime();
+            });
+        });
+        req.on('error', (error) => {
+            console.error(error);
+            return reject(error);
+        });
+        req.end();
     });
-    req.on('socket', (socket) => {
-        socket.on('lookup', () => {
-            timings.dnsLookupAt = process.hrtime()
-        })
-        socket.on('connect', () => {
-            timings.tcpConnectionAt = process.hrtime()
-        })
-        socket.on('secureConnect', () => {
-            timings.tlsHandshakeAt = process.hrtime()
-        })
-    });
-    req.on('error', function(error) {
-        process.stdout.write(JSON.stringify(error));
-        process.exitCode = 1;
-    })
-    req.end();
-})();
+}
+
+module.exports = {
+    triggerTest,
+};

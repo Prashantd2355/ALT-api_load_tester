@@ -68,7 +68,14 @@ a.active {
 .text-purple {
     color: purple;
 }
-
+table >thead> tr>th{
+  color:rgb(70, 76, 79);
+  text-transform:uppercase!important;
+  width:calc(100%/4)!important;
+}
+td,th {
+  padding: 5px!important;
+}
 .card {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.23) !important;
 }

@@ -32,12 +32,12 @@ const BasicLineChart = (props: IBasicLineChartProps) => {
           .domain(
             d3.extent(data, (d) => {
               return d.date
-            }) as [Date, Date] 
+            }) as [Date, Date]
           )
           .range([0, width])
 
           svg.append('g').call(d3.axisBottom(x))
-          
+
           const y = d3
             .scaleLinear()
             .domain([
@@ -67,7 +67,7 @@ const BasicLineChart = (props: IBasicLineChartProps) => {
                   return y(((d as unknown) as Types.Data).value)
                 })
             )
-        })
+    });
     }
     return <div className="basicLineChart" />
 }
@@ -81,5 +81,5 @@ interface IBasicLineChartProps {
     left: number
     fill: string
   }
-  
+
   export default BasicLineChart
