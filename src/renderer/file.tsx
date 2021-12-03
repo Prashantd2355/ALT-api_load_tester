@@ -1,9 +1,28 @@
+/* eslint-disable no-alert */
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-bitwise */
 /* eslint-disable no-plusplus */
 import XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { AppContext } from './context';
 
 export default function File() {
+  const { dispatch } = React.useContext(AppContext);
+  const [processParams, setProcessParams] = useState<any[]>([]);
+  const history = useHistory();
+
+  function handleClick() {
+    // to store data of excel
+    dispatch({
+      type: 'isBulk',
+      payload: processParams,
+    });
+    // to go to process-data page
+    const path = `/process`;
+    history.push(path);
+  }
   // method to validate URLs
   function isValidURL(url: string) {
     const res = url.match(
@@ -38,7 +57,7 @@ export default function File() {
     };
     wb.SheetNames.push('Sheet');
 
-    const wsData = [['URL', 'METHOD', 'HEADERS', 'BODY']]; // a row with 4 columns
+    const wsData = [['url', 'method', 'headers', 'body', 'requests']]; // a row with 4 columns
 
     const ws = XLSX.utils.aoa_to_sheet(wsData);
 
@@ -55,16 +74,18 @@ export default function File() {
   function generateJSONFile() {
     const apiJSONFormat = [
       {
-        URL: 'https://www.example.com/getUsers/',
-        METHOD: 'GET',
-        HEADERS: '{}',
-        BODY: '{}',
+        url: 'https://www.example.com/getUsers/',
+        method: 'GET',
+        headers: '{}',
+        body: '{}',
+        requests: 1,
       },
       {
-        URL: 'https://www.example.com/createUsers/',
-        METHOD: 'POST',
-        HEADERS: '{}',
-        BODY: '{}',
+        url: 'https://www.example.com/createUsers/',
+        method: 'POST',
+        headers: '{}',
+        body: '{}',
+        requests: 1,
       },
     ];
     const dataStr = `data:text/json;charset=utf-8,${encodeURIComponent(
@@ -80,115 +101,48 @@ export default function File() {
 
   function handleChange(files: any) {
     const methodList = ['GET', 'POST', 'PUT', 'DELETE'];
-    console.log('files :', files);
+    let apiList: any[];
     if (files[0].type === 'application/json') {
       const reader = new FileReader();
-      reader.addEventListener('load', function () {
+      reader.addEventListener('load', () => {
         const data: string | undefined = reader.result?.toString();
-        /// let arr: object[];
-        let mainArr: unknown[] = [];
-
         if (data !== undefined) {
-          mainArr = JSON.parse(data);
+          apiList = JSON.parse(data);
+        } else {
+          alert('Empty data');
         }
-
-        // /// /
-
-        // // eslint-disable-next-line no-restricted-syntax
-        // for (const [index, val] of arr.entries()) {
-        //   debugger;
-
-        //   console.log('item:', { index, val });
-
-        //   try {
-        //     const url = val.URL;
-        //     const method = val.METHOD;
-        //     const header = val.HEADERS;
-        //     const body = val.BODY;
-
-        //     const idx = arr.indexOf(val);
-
-        //     if (idx !== -1) arr.splice(idx, 1);
-        //     // validate URL
-        //     if (!isValidURL(url)) {
-        //       // eslint-disable-next-line no-alert
-        //       alert(`URL not valid: ${url}`);
-        //     }
-
-        //     // validate method name
-        //     if (!methodList.includes(method)) {
-        //       // eslint-disable-next-line no-alert
-        //       alert(`Method name not valid: ${method}`);
-        //     }
-
-        //     // validate header
-        //     if (!isValidJSON(header)) {
-        //       // eslint-disable-next-line no-alert
-        //       alert(`Header not valid: ${header}`);
-        //     }
-
-        //     // validate body
-        //     if (!isValidJSON(body)) {
-        //       // eslint-disable-next-line no-alert
-        //       alert(`Body name not valid: ${body}`);
-        //     }
-        //   } catch (e) {
-        //     console.log((e as Error).message);
-        //   }
-
-        //   if (index === 1) {
-        //     console.log('break!');
-        //     break;
-        //   }
-        // }
-
-        /// /
-
-        // console.log('Arr', arr);
         // loop each record
-        mainArr.forEach((eachElement: any) => {
-          debugger;
-          const url = eachElement.URL;
-          const method = eachElement.METHOD;
-          const header = eachElement.HEADERS;
-          const body = eachElement.BODY;
-
-          const arr: unknown[] = mainArr;
+        apiList.forEach((eachElement: any) => {
+          const { url } = eachElement;
+          const { method } = eachElement;
+          const header = eachElement.headers;
+          const { body } = eachElement;
 
           // validate URL
           if (!isValidURL(url)) {
-            const idx = arr.indexOf(eachElement);
-
-            if (idx !== -1) arr.splice(idx, 1);
             alert(`URL not valid: ${url}`);
           }
 
           // validate method name
           if (!methodList.includes(method)) {
-            const idx = arr.indexOf(eachElement);
-
-            if (idx !== -1) arr.splice(idx, 1);
             alert(`Method name not valid: ${method}`);
           }
 
           // validate header
           if (!isValidJSON(header)) {
-            const idx = arr.indexOf(eachElement);
-
-            if (idx !== -1) arr.splice(idx, 1);
             alert(`Header not valid: ${header}`);
           }
 
           // validate body
           if (!isValidJSON(body)) {
-            const idx = arr.indexOf(eachElement);
-
-            if (idx !== -1) arr.splice(idx, 1);
             alert(`Body name not valid: ${body}`);
           }
         });
       });
       reader.readAsText(files[0]);
+      reader.onloadend = () => {
+        setProcessParams(apiList);
+      };
     }
   }
   return (
@@ -233,6 +187,9 @@ export default function File() {
               className="form-control"
               onChange={(e) => handleChange(e.target.files)}
             />
+            <button type="button" onClick={handleClick}>
+              Upload
+            </button>
           </div>
         </div>
       </div>

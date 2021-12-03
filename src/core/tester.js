@@ -2,19 +2,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable prettier/prettier */
 const https = require('https');
-const argv = require('minimist')(process.argv.slice(2));
-// const fs = require('fs');
-
-// const fileList = './filelist.txt';
-// fs.readFile(fileList, (err, data) => {
-//     if (err) throw err;
-//     data = data.toString();
-//     data += 'Dharmil Wrote';
-//     fs.writeFile(fileList, data, (err) => {
-//         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-//         err || console.log('Data replaced \n', data);
-//     });
-// });
 
 function triggerTest(host, path, method) {
     const body = [];
