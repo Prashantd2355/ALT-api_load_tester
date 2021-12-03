@@ -55,7 +55,8 @@
             "gatekeeperAssess": false
         },
         "dmg": {
-            "contents": [{
+            "contents": [
+                {
                     "x": 130,
                     "y": 220
                 },
@@ -213,6 +214,9 @@
         "electron-updater": "^4.3.9",
         "file-saver": "^2.0.5",
         "history": "4.x.x",
+        "html-to-pdfmake": "^2.3.6",
+        "jspdf": "^2.4.0",
+        "pdfmake": "^0.2.4",
         "react": "^17.0.2",
         "react-bootstrap": "^2.0.1",
         "react-chartjs-2": "^3.3.0",
@@ -232,15 +236,17 @@
     },
     "browserslist": [],
     "prettier": {
-        "overrides": [{
-            "files": [
-                ".prettierrc",
-                ".eslintrc"
-            ],
-            "options": {
-                "parser": "json"
+        "overrides": [
+            {
+                "files": [
+                    ".prettierrc",
+                    ".eslintrc"
+                ],
+                "options": {
+                    "parser": "json"
+                }
             }
-        }],
+        ],
         "singleQuote": true
     },
     "husky": {

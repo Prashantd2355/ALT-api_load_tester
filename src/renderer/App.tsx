@@ -2,7 +2,7 @@ import { MemoryRouter as Router, Switch, Route } from 'react-router-dom';
 import Nav from './Nav';
 import File from './file';
 import graph from './graph';
-import Process from './process-data/index';
+import Process from './process';
 //import icon from '../../assets/icon.svg';
 import './App.css';
 import './bootstrap-local.min.css';
@@ -18,6 +18,7 @@ import './bootstrap-local.min.css';
 // };
 
 export default function App() {
+
   return (
     <Router>
       <Nav />
