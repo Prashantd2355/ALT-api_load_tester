@@ -38,7 +38,7 @@ export default function Process({ isBulk = true }: any) {
       setColumns(newColumns);
     }
     const newResult = results.map((r: any) => {
-      r.body = 'body';
+      //r.body = 'body';
       return r;
     });
     setResponseData(newResult);
@@ -47,6 +47,7 @@ export default function Process({ isBulk = true }: any) {
       payload: results,
     });
     console.log('State:', state);
+    console.log(newResult);
   };
   useMemo(() => {
     if (state.data.length) {
