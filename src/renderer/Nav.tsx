@@ -6,18 +6,38 @@ import {
   faChartLine,
   faInfo,
 } from '@fortawesome/free-solid-svg-icons';
+import logo from './logo.png';
 
 export default function Nav() {
   return (
     <nav className="nav">
       <div className="container">
         <Link to="/" className="Nav__brand">
-          <img src="logo.svg" alt="logo" className="Nav__logo" />
+          <img
+            src={logo}
+            alt="logo"
+            width="100%"
+            style={{ margin: '30px auto' }}
+            className="Nav__logo"
+          />
         </Link>
         <ul className="list">
           <Link to="/file">
             <li className="list-item">
-              <NavLink exact activeClassName="active" to="/file">
+              <NavLink
+                isActive={(_match, location: any) => {
+                  if (
+                    location.pathname === '/' ||
+                    location.pathname === '/file'
+                  ) {
+                    return true;
+                  }
+                  return false;
+                }}
+                exact
+                activeClassName="active"
+                to="/file"
+              >
                 <FontAwesomeIcon
                   icon={faFileUpload}
                   size="lg"
