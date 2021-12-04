@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import { AppContext } from 'renderer/context';
 import Table from './Table';
 
-export default function Process({ isBulk = true }: any) {
+export default function Process() {
   const { state, dispatch } = React.useContext(AppContext);
   const [responseData, setResponseData] = useState<any[]>([]);
   const [url, setUrl] = useState('');
@@ -16,10 +16,10 @@ export default function Process({ isBulk = true }: any) {
 
   const processUrl = async () => {
     let results;
-    if (isBulk) {
-      results = await window.electronAPI.processData(isBulk, state.data);
+    if (state.isBulk) {
+      results = await window.electronAPI.processData(state.isBulk, state.data);
     } else {
-      results = await window.electronAPI.processData(isBulk, [
+      results = await window.electronAPI.processData(state.isBulk, [
         {
           url,
           method,
@@ -65,12 +65,12 @@ export default function Process({ isBulk = true }: any) {
     <div
       className="d-flex"
       style={
-        isBulk
+        state.isBulk
           ? { flexDirection: 'column-reverse' }
           : { flexDirection: 'column' }
       }
     >
-      {isBulk ? (
+      {state.isBulk ? (
         // if its not bulk then show input boxes
         <div className="mt-3">
           <button
