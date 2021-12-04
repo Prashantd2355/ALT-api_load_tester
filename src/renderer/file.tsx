@@ -20,6 +20,9 @@ export default function File() {
       type: 'isBulk',
       payload: processParams,
     });
+    dispatch({
+      type: 'isBulkTrue',
+    });
     // to go to process-data page
     const path = `/process`;
     history.push(path);

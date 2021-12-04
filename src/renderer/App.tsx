@@ -4,6 +4,7 @@ import Nav from './Nav';
 import File from './file';
 import graph from './graph';
 import Process from './process-data/index';
+import Helper from './helper';
 /* eslint-disable import/prefer-default-export */
 import './App.css';
 import './bootstrap-local.min.css';
@@ -21,6 +22,7 @@ export default function App() {
               <Route path="/process" component={Process} />
               <Route path="/file" component={File} />
               <Route path="/graph" component={graph} />
+              <Route path="/help" component={Helper} />
               <Route path="/" component={File} />
             </Switch>
           </div>
