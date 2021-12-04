@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-alert */
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-bitwise */
@@ -6,6 +7,7 @@ import XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { FileUploader } from 'react-drag-drop-files';
 import { AppContext } from './context';
 
 export default function File() {
@@ -148,8 +150,19 @@ export default function File() {
       };
     }
   }
+
+  const [file, setFile] = useState(null);
+  const handleDrag = (dragFile: any) => {
+    console.log(file);
+    setFile(dragFile);
+  };
+
   return (
     <div>
+      <div style={{ height: '200px' }}>
+        <FileUploader handleChange={handleDrag} name="file" />
+      </div>
+
       <div className="row" style={{ padding: 'inherit' }}>
         <div className="">
           <button
