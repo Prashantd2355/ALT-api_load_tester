@@ -156,8 +156,6 @@ export default function File() {
     console.log(file);
     setFile(dragFile);
 
-    //
-
     const methodList = ['GET', 'POST', 'PUT', 'DELETE'];
     let apiList: any[];
     if (dragFile.type === 'application/json') {
