@@ -104,53 +104,6 @@ export default function File() {
     downloadAnchorNode.remove();
   }
 
-  function handleChange(files: any) {
-    const methodList = ['GET', 'POST', 'PUT', 'DELETE'];
-    let apiList: any[];
-    if (files[0].type === 'application/json') {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => {
-        const data: string | undefined = reader.result?.toString();
-        if (data !== undefined) {
-          apiList = JSON.parse(data);
-        } else {
-          alert('Empty data');
-        }
-        // loop each record
-        apiList.forEach((eachElement: any) => {
-          const { url } = eachElement;
-          const { method } = eachElement;
-          const { headers } = eachElement;
-          const { body } = eachElement;
-
-          // validate URL
-          if (!isValidURL(url)) {
-            alert(`URL not valid: ${url}`);
-          }
-
-          // validate method name
-          if (!methodList.includes(method)) {
-            alert(`Method name not valid: ${method}`);
-          }
-
-          // validate header
-          if (!isValidJSON(headers)) {
-            alert(`Header not valid: ${headers}`);
-          }
-
-          // validate body
-          if (!isValidJSON(body)) {
-            alert(`Body name not valid: ${body}`);
-          }
-        });
-      });
-      reader.readAsText(files[0]);
-      reader.onloadend = () => {
-        setProcessParams(apiList);
-      };
-    }
-  }
-
   const [file, setFile] = useState<any>(null);
   const handleDrag = (dragFile: any) => {
     console.log(file);
@@ -226,7 +179,6 @@ export default function File() {
             const { method } = eachElement;
             const { headers } = eachElement;
             const { body } = eachElement;
-            const { requests } = eachElement;
             // validate URL
             if (!isValidURL(url)) {
               alert(`URL not valid: ${url}`);
@@ -245,11 +197,6 @@ export default function File() {
             // validate body
             if (!isValidJSON(body)) {
               alert(`Body name not valid: ${body}`);
-            }
-
-            // validate body
-            if (!isValidJSON(requests)) {
-              alert(`Requests valid: ${requests}`);
             }
           });
         });
@@ -299,15 +246,6 @@ export default function File() {
           <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
           Download JSON File
         </button>
-
-        {/* <h5>Upload File</h5> */}
-
-        <input
-          type="file"
-          style={{ display: 'none' }}
-          className="form-control"
-          onChange={(e) => handleChange(e.target.files)}
-        />
       </div>
 
       <div className="fileuploader">
