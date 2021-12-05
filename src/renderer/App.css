@@ -138,3 +138,20 @@ th {
     color: #0c63e4;
     background-color: #ffffff !important;
 }
+
+.fileuploader {
+    margin-top: 20px;
+}
+
+.fileuploader label {
+    height: 600px;
+    max-width: 100% !important;
+}
+
+.fileuploader svg {
+    margin-left: 40%;
+}
+
+.download-buttons {
+    /* padding-left: 70%; */
+}
