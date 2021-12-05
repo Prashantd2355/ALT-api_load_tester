@@ -120,7 +120,7 @@ export default function File() {
         apiList.forEach((eachElement: any) => {
           const { url } = eachElement;
           const { method } = eachElement;
-          const header = eachElement.headers;
+          const { headers } = eachElement;
           const { body } = eachElement;
 
           // validate URL
@@ -134,8 +134,8 @@ export default function File() {
           }
 
           // validate header
-          if (!isValidJSON(header)) {
-            alert(`Header not valid: ${header}`);
+          if (!isValidJSON(headers)) {
+            alert(`Header not valid: ${headers}`);
           }
 
           // validate body
@@ -173,7 +173,6 @@ export default function File() {
           const { method } = eachElement;
           const { headers } = eachElement;
           const { body } = eachElement;
-          const { requests } = eachElement;
 
           // validate URL
           if (!isValidURL(url)) {
@@ -193,11 +192,6 @@ export default function File() {
           // validate body
           if (!isValidJSON(body)) {
             alert(`Body name not valid: ${body}`);
-          }
-
-          // validate body
-          if (!isValidJSON(requests)) {
-            alert(`Request not valid: ${requests}`);
           }
         });
       });
