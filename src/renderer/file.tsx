@@ -203,7 +203,7 @@ export default function File() {
           }
         });
       });
-      reader.readAsText(file !== null ? file : new Blob());
+      reader.readAsText(dragFile !== null ? dragFile : new Blob());
       reader.onloadend = () => {
         setProcessParams(apiList);
       };
