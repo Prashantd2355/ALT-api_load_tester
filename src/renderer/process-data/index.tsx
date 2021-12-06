@@ -18,6 +18,10 @@ export default function Process() {
 
   const processUrl = async () => {
     let results;
+    dispatch({
+      type: 'toggleLoader',
+      payload: true,
+    });
     if (state.isBulk) {
       results = await window.electronAPI.processData(state.isBulk, state.data);
     } else {
@@ -47,7 +51,10 @@ export default function Process() {
       type: 'appendResponse',
       payload: results,
     });
-
+    dispatch({
+      type: 'toggleLoader',
+      payload: false,
+    });
     if (state.isBulk) {
       // to go to graph page
       const path = `/graph`;

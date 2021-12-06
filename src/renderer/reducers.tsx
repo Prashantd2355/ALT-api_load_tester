@@ -30,3 +30,11 @@ export const toggleIsBulk = (state: number, action: any) => {
       return state;
   }
 };
+export const toggleLoader = (state: number, action: any) => {
+  switch (action.type) {
+    case 'toggleLoader':
+      return !state;
+    default:
+      return state;
+  }
+};
