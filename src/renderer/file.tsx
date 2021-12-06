@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-alert */
 /* eslint-disable import/no-cycle */
 /* eslint-disable no-bitwise */
@@ -6,6 +7,7 @@ import XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { FileUploader } from 'react-drag-drop-files';
 import { AppContext } from './context';
 
 export default function File() {
@@ -103,13 +105,14 @@ export default function File() {
     downloadAnchorNode.remove();
   }
 
-  function handleChange(files: any) {
+  const [file, setFile] = useState<any>(null);
+  const handleDrag = (dragFile: any) => {
+    console.log(file);
+    setFile(dragFile);
+
     const methodList = ['GET', 'POST', 'PUT', 'DELETE'];
-
-    console.log('files :', files);
     let apiList: any[];
-
-    if (files[0].type === 'application/json') {
+    if (dragFile.type === 'application/json') {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
         const data: string | undefined = reader.result?.toString();
@@ -124,7 +127,7 @@ export default function File() {
         apiList.forEach((eachElement: any) => {
           const { url } = eachElement;
           const { method } = eachElement;
-          const header = eachElement.headers;
+          const { headers } = eachElement;
           const { body } = eachElement;
 
           // validate URL
@@ -140,9 +143,8 @@ export default function File() {
           }
 
           // validate header
-          if (!isValidJSON(header)) {
-            // eslint-disable-next-line no-alert
-            alert(`Header not valid: ${header}`);
+          if (!isValidJSON(headers)) {
+            alert(`Header not valid: ${headers}`);
           }
 
           // validate body
@@ -152,59 +154,125 @@ export default function File() {
           }
         });
       });
-      reader.readAsText(files[0]);
+      reader.readAsText(dragFile !== null ? dragFile : new Blob());
+      reader.onloadend = () => {
+        setProcessParams(apiList);
+      };
+    } else if (
+      dragFile.type === 'application/vnd.ms-excel' ||
+      dragFile.type ===
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        const data = e.target !== null ? e.target.result : null;
+        const workbook = XLSX.read(data, {
+          type: 'binary',
+        });
+
+        // looping each row from excel sheet
+        workbook.SheetNames.forEach(function (sheetName) {
+          const XL_row_object = XLSX.utils.sheet_to_json(
+            workbook.Sheets[sheetName]
+          );
+          const json_object = JSON.stringify(XL_row_object);
+          apiList = JSON.parse(json_object);
+
+          // loop each record
+          apiList.forEach((eachElement: any) => {
+            const { url } = eachElement;
+            const { method } = eachElement;
+            const { headers } = eachElement;
+            const { body } = eachElement;
+            // validate URL
+            if (!isValidURL(url)) {
+              alert(`URL not valid: ${url}`);
+            }
+
+            // validate method
+            if (!methodList.includes(method)) {
+              alert(`Method name not valid: ${method}`);
+            }
+
+            // validate header
+            if (!isValidJSON(headers)) {
+              alert(`Header not valid: ${headers}`);
+            }
+
+            // validate body
+            if (!isValidJSON(body)) {
+              alert(`Body name not valid: ${body}`);
+            }
+          });
+        });
+      };
+
+      reader.onerror = function (ex) {
+        console.log(ex);
+      };
+
+      reader.readAsBinaryString(dragFile);
+
       reader.onloadend = () => {
         setProcessParams(apiList);
       };
     }
-  }
+  };
+
   return (
     <div>
-      <div className="row" style={{ padding: 'inherit' }}>
-        <div className="col-md-4">
-          <div className="">
-            <button
-              type="button"
-              onClick={generateExcelFile}
-              className="btn btn-default btn-lg m-5"
-              style={{
-                background: 'transparent',
-                fontSize: '25px',
-                border: '1px solid gray',
-                borderColor: 'gray',
-              }}
-            >
-              <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
-              Download Excel File
-            </button>
+      <div className="download-buttons">
+        <button
+          type="button"
+          onClick={generateExcelFile}
+          className="btn btn-default btn-lg m-1"
+          style={{
+            background: 'transparent',
+            fontSize: '14px',
+            border: '1px solid gray',
+            borderColor: 'gray',
+          }}
+        >
+          <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
+          Download Excel File
+        </button>
 
-            <button
-              type="button"
-              onClick={generateJSONFile}
-              className="btn btn-default btn-lg m-5"
-              style={{
-                background: 'transparent',
-                fontSize: '25px',
-                border: '1px solid gray',
-                borderColor: 'gray',
-              }}
-            >
-              <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
-              Download JSON File
-            </button>
+        <button
+          type="button"
+          onClick={generateJSONFile}
+          className="btn btn-default btn-lg m-1"
+          style={{
+            background: 'transparent',
+            fontSize: '14px',
+            border: '1px solid gray',
+            borderColor: 'gray',
+          }}
+        >
+          <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
+          Download JSON File
+        </button>
+      </div>
 
-            <h5>Upload File</h5>
+      <div className="fileuploader">
+        <FileUploader handleChange={handleDrag} name="file" />
+      </div>
 
-            <input
-              type="file"
-              className="form-control"
-              onChange={(e) => handleChange(e.target.files)}
-            />
-            <button type="button" onClick={handleClick}>
-              Upload
-            </button>
-          </div>
-        </div>
+      <div>
+        <button
+          type="button"
+          onClick={handleClick}
+          className="btn btn-default btn-lg m-1"
+          style={{
+            background: 'transparent',
+            fontSize: '14px',
+            border: '1px solid gray',
+            borderColor: 'gray',
+          }}
+        >
+          <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
+          Upload
+        </button>
       </div>
     </div>
   );
