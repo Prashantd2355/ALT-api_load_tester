@@ -135,7 +135,7 @@ th {
 
 .accordion-button:not(.collapsed) {
     border: 0px !important;
-    color: #0c63e4;
+    color: #06d6a0 !important;
     background-color: #ffffff !important;
 }
 

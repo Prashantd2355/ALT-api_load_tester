@@ -11,6 +11,7 @@ import './bootstrap-local.min.css';
 import { AppProvider } from './context';
 
 export default function App() {
+
   return (
     <>
       <AppProvider>

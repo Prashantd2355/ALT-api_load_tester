@@ -36,6 +36,7 @@ function triggerTest(host, path, method) {
                 try {
                     timings.body = JSON.parse(Buffer.concat(body).toString());
                 } catch (error) {
+                    console.log('Error:', error);
                     timings.body.error = Buffer.concat(body).toString();
                 }
                 return resolve(timings);

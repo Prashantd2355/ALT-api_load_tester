@@ -11,6 +11,7 @@ import { FileUploader } from 'react-drag-drop-files';
 import { AppContext } from './context';
 
 export default function File() {
+
   const { dispatch } = React.useContext(AppContext);
   const [processParams, setProcessParams] = useState<any[]>([]);
   const history = useHistory();
@@ -120,6 +121,8 @@ export default function File() {
         } else {
           alert('Empty data');
         }
+        //console.log('Arr', arr);
+
         // loop each record
         apiList.forEach((eachElement: any) => {
           const { url } = eachElement;
@@ -129,11 +132,13 @@ export default function File() {
 
           // validate URL
           if (!isValidURL(url)) {
+            // eslint-disable-next-line no-alert
             alert(`URL not valid: ${url}`);
           }
 
           // validate method name
           if (!methodList.includes(method)) {
+            // eslint-disable-next-line no-alert
             alert(`Method name not valid: ${method}`);
           }
 
@@ -144,6 +149,7 @@ export default function File() {
 
           // validate body
           if (!isValidJSON(body)) {
+            // eslint-disable-next-line no-alert
             alert(`Body name not valid: ${body}`);
           }
         });
