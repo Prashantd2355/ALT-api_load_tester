@@ -2,6 +2,7 @@
 import { InputGroup, FormControl, Form } from 'react-bootstrap';
 import React, { useState, useMemo } from 'react';
 import { AppContext } from 'renderer/context';
+import { useHistory } from 'react-router-dom';
 import Table from './Table';
 
 export default function Process() {
@@ -13,6 +14,7 @@ export default function Process() {
   const [header, setHeader] = useState('{}');
   const [requests, setRequest] = useState(0);
   const [columns, setColumns] = useState<any[]>([]);
+  const history = useHistory();
 
   const processUrl = async () => {
     let results;
@@ -38,7 +40,6 @@ export default function Process() {
       setColumns(newColumns);
     }
     const newResult = results.map((r: any) => {
-      //r.body = 'body';
       return r;
     });
     setResponseData(newResult);
@@ -46,8 +47,12 @@ export default function Process() {
       type: 'appendResponse',
       payload: results,
     });
-    console.log('State:', state);
-    console.log(newResult);
+
+    if (state.isBulk) {
+      // to go to graph page
+      const path = `/graph`;
+      history.push(path);
+    }
   };
   useMemo(() => {
     if (state.data.length) {

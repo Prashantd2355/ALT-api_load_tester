@@ -11,7 +11,6 @@ import { FileUploader } from 'react-drag-drop-files';
 import { AppContext } from './context';
 
 export default function File() {
-
   const { dispatch } = React.useContext(AppContext);
   const [processParams, setProcessParams] = useState<any[]>([]);
   const history = useHistory();
@@ -121,7 +120,7 @@ export default function File() {
         } else {
           alert('Empty data');
         }
-        //console.log('Arr', arr);
+        // console.log('Arr', arr);
 
         // loop each record
         apiList.forEach((eachElement: any) => {
@@ -226,13 +225,7 @@ export default function File() {
         <button
           type="button"
           onClick={generateExcelFile}
-          className="btn btn-default btn-lg m-1"
-          style={{
-            background: 'transparent',
-            fontSize: '14px',
-            border: '1px solid gray',
-            borderColor: 'gray',
-          }}
+          className="btn btn-primary btn-lg m-1"
         >
           <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
           Download Excel File
@@ -241,13 +234,7 @@ export default function File() {
         <button
           type="button"
           onClick={generateJSONFile}
-          className="btn btn-default btn-lg m-1"
-          style={{
-            background: 'transparent',
-            fontSize: '14px',
-            border: '1px solid gray',
-            borderColor: 'gray',
-          }}
+          className="btn btn-primary btn-lg m-1"
         >
           <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
           Download JSON File
@@ -262,13 +249,7 @@ export default function File() {
         <button
           type="button"
           onClick={handleClick}
-          className="btn btn-default btn-lg m-1"
-          style={{
-            background: 'transparent',
-            fontSize: '14px',
-            border: '1px solid gray',
-            borderColor: 'gray',
-          }}
+          className="btn btn-primary btn-lg m-1"
         >
           <span className="glyphicon glyphicon-star" aria-hidden="true" />{' '}
           Upload

@@ -4,154 +4,166 @@
  */
 
 body {
-    margin: 0px;
-    background-color: rgb(255, 255, 255);
+  margin: 0px;
+  background-color: rgb(255, 255, 255);
 }
 
-body>div {
-    display: flex;
+body > div {
+  display: flex;
 }
 
 .main {
-    height: auto;
-    width: 85%;
-    background-color: rgb(249, 251, 250);
-    border-left: 0.5px solid #80808038;
-    padding: 15px;
+  height: auto;
+  width: 85%;
+  background-color: rgb(249, 251, 250);
+  border-left: 0.5px solid #80808038;
+  padding: 15px;
 }
 
 nav {
-    height: 100vh;
-    width: 15%;
+  height: 100vh;
+  width: 15%;
 }
 
 .list-item {
-    padding: 10px;
-    font-family: Akzidenz, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: bold;
-    color: rgb(11, 59, 53) !important;
+  padding: 10px;
+  font-family: Akzidenz, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: rgb(11, 59, 53) !important;
+}
+
+.list-item > a > svg {
+  font-size: 25px !important;
+}
+
+.list-item > a > span {
+  font-size: 16px !important;
+}
+
+.fileuploader > label > div > span {
+  font-size: 20px;
 }
 
 .list-item:hover {
-    background-color: rgb(228, 244, 228);
+  background-color: rgb(228, 244, 228);
 }
 
 .list {
-    padding: 0px;
-    display: flex;
-    list-style: none;
-    flex-direction: column;
+  padding: 0px;
+  display: flex;
+  list-style: none;
+  flex-direction: column;
 }
 
 a {
-    color: rgb(11, 59, 53) !important;
-    text-decoration: none !important;
+  color: rgb(11, 59, 53) !important;
+  text-decoration: none !important;
 }
 
 a.active {
-    color: #06d6a0 !important;
+  color: #06d6a0 !important;
 }
 
 .card {
-    background: #fff !important;
-    border-radius: 4px !important;
-    display: inline-block !important;
-    width: 100%;
-    position: relative !important;
+  background: #fff !important;
+  border-radius: 4px !important;
+  display: inline-block !important;
+  width: 100%;
+  position: relative !important;
 }
 
 .text-local-primary {
-    color: #06d6a0;
+  color: #06d6a0;
 }
 
 .text-purple {
-    color: purple;
+  color: purple;
 }
 
-table>thead>tr>th {
-    color: rgb(70, 76, 79);
-    text-transform: uppercase !important;
-    width: calc(100% / 4) !important;
+table > thead > tr > th {
+  color: rgb(70, 76, 79);
+  text-transform: uppercase !important;
+  width: calc(100% / 4) !important;
 }
 
 td,
 th {
-    padding: 5px !important;
+  padding: 5px !important;
 }
 
 .card {
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.23) !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 5px rgba(0, 0, 0, 0.23) !important;
 }
 
 .card:hover {
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
 }
 
 .main-content {
-    padding-top: 50px;
-    padding-bottom: 50px;
+  padding-top: 50px;
+  padding-bottom: 50px;
 }
 
 .flex-center {
-    align-items: center;
+  align-items: center;
 }
 
 .flex-left {
-    align-items: left;
+  align-items: left;
 }
 
 .accordion-button {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .accordion-body {
-    margin-top: 15px;
-    padding: 25px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 25px -3px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
+  margin-top: 15px;
+  padding: 25px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 25px -3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
 }
 
 .circle-icon {
-    height: 50px;
-    width: 50px;
-    border-radius: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #06d6a0 !important;
-    border: 5px solid #06d6a0 !important;
-    color: #fff;
-    margin-left: -20px;
-    margin-right: 20px;
-    transform: scale(1.2);
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #06d6a0 !important;
+  border: 5px solid #06d6a0 !important;
+  color: #fff;
+  margin-left: -20px;
+  margin-right: 20px;
+  transform: scale(1.2);
 }
 
 .accordion-item {
-    border: 0px !important;
+  border: 0px !important;
 }
 
 .accordion-button:not(.collapsed) {
-    border: 0px !important;
-    color: #06d6a0 !important;
-    background-color: #ffffff !important;
+  border: 0px !important;
+  color: #06d6a0 !important;
+  background-color: #ffffff !important;
 }
 
 .fileuploader {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .fileuploader label {
-    height: 600px;
-    max-width: 100% !important;
+  height: 600px;
+  max-width: 100% !important;
 }
 
 .fileuploader svg {
-    margin-left: 40%;
+  margin-left: 40%;
 }
 
 .download-buttons {
-    /* padding-left: 70%; */
+  /* padding-left: 70%; */
 }

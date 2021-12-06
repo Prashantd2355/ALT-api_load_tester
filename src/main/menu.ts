@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   app,
   Menu,
@@ -256,9 +257,9 @@ export default class MenuBuilder {
         label: 'Help',
         submenu: [
           {
-            label: 'Learn More',
-            click() {
-              shell.openExternal('https://electronjs.org');
+            label: 'FAQ',
+            click(_menuItem: any, browserWindow: any, _event: any) {
+              browserWindow.loadURL('/help');
             },
           },
           {
