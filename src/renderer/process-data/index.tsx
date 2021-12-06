@@ -46,6 +46,8 @@ export default function Process() {
     const newResult = results.map((r: any) => {
       return r;
     });
+    console.log(newResult);
+
     setResponseData(newResult);
     dispatch({
       type: 'appendResponse',
@@ -55,11 +57,9 @@ export default function Process() {
       type: 'toggleLoader',
       payload: false,
     });
-    if (state.isBulk) {
-      // to go to graph page
-      const path = `/graph`;
-      history.push(path);
-    }
+    // to go to graph page
+    const path = `/graph`;
+    history.push(path);
   };
   useMemo(() => {
     if (state.data.length) {
