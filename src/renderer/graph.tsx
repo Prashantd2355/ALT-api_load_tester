@@ -6,10 +6,8 @@ import { AppContext } from 'renderer/context';
 export default function graph() {
 
   const { state } = React.useContext(AppContext);
-
   let arrayResult = state.responseData;
 
-  console.log(arrayResult);
   let noOfRequests = 0;
   let noOfSuccessRequests = 0;
   let noOfErrors = 0;
@@ -30,7 +28,8 @@ export default function graph() {
   Object.keys(arrayResult).forEach((key) => {
 
     noOfRequests += arrayResult[key].length;
-    lbl.push(['API '+apiNumers]);
+    let NumApi = apiNumers +1;
+    lbl.push(['API '+NumApi]);
     let staTable: { [k:  string]: any } = {};
     let timeAPIWise: any[] = [];
     let latencyAPIWise: any[] = [];
@@ -44,7 +43,6 @@ export default function graph() {
       let diff = (endAtSec[1] - startAtSec[1]);
       diff  = Math.abs(diff / 1000000);
 
-      console.log(endAtSec[1]+"--"+startAtSec[1]+"     "+(endAtSec[1] - startAtSec[1]));
       TestDurArr.push(diff);
       timeAPIWise.push(diff);
 
@@ -78,8 +76,9 @@ export default function graph() {
       }else{
         staTable[statusCode] = 1;
       }
-      lblRes.push(count);
+      
       count++;
+      lblRes.push(count);
     });
 
     Object.keys(staTable).forEach((arkey) => {
@@ -95,16 +94,18 @@ export default function graph() {
       j = 0;
     }
     
-    let e = {label: 'API '+apiNumers,data: timeAPIWise,borderColor: colorArr[j],fill: false,borderWidth: 1};
+    let e = {label: 'API '+NumApi,data: timeAPIWise,borderColor: colorArr[j],backgroundColor: colorArr[j],fill: false,borderWidth: 1};
     dtstRes.push(e);
-    let f = {label: 'API '+apiNumers,data: latencyAPIWise,borderColor: colorArr[j],fill: false,borderWidth: 1};
+    let f = {label: 'API '+NumApi,data: latencyAPIWise,borderColor: colorArr[j],backgroundColor: colorArr[j],fill: false,borderWidth: 1};
     dtstLat.push(f);
     apiNumers++;
 
   });
   
   var unique = TestDurArr.filter((v, i, a) => a.indexOf(v) === i);
-  testDuration = Math.round(Math.max(...unique));
+  if(unique.length > 0){
+    testDuration = Math.round(Math.max(...unique));
+  }
 
   let i = 0;
   Object.keys(stn).forEach((arkey) => {
@@ -118,12 +119,14 @@ export default function graph() {
     
   let responseCodesData =  {
 		labels: lbl,
-		datasets: dtst
+		datasets: dtst,
+    // options: {
+    //   responsive: true, // Instruct chart js to respond nicely.
+    //   maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
+    // }
 	};
 
-  console.log(lblRes);
   lblRes = lblRes.filter((v, i, a) => a.indexOf(v) === i);
-  console.log(lblRes);
   let resTimeData = {labels: lblRes, datasets: dtstRes};
   let lateData = {labels: lblRes, datasets: dtstLat};
 
@@ -221,7 +224,7 @@ export default function graph() {
 
       <div className="row mb-4" style={{ padding: 'inherit' }}>
         <div className="col-md-4">
-          <div className="card">
+          <div className="card" style={{ height: '500px' }}>
             <div
               className="card-header text-center"
               style={{
@@ -231,7 +234,7 @@ export default function graph() {
                 border: 'none',
               }}
             >
-              Requests Summary
+               Requests Summary
             </div>
             <div className="card-body">
               <Pie data={reqSum} />
@@ -239,68 +242,7 @@ export default function graph() {
           </div>
         </div>
         <div className="col-md-8" style={{ height: 'auto' }}>
-          <div className="card">
-            <div
-              className="card-header text-center"
-              style={{
-                background: 'transparent',
-                fontSize: '25px',
-                fontWeight: 500,
-                border: 'none',
-              }}
-            >
-              Latency Comparison
-            </div>
-            <div className="card-body">
-              <Line data={lateData} 
-              options={{
-                plugins: {
-                  title: {
-                    display: true,
-                    text: 'Latency Comparison',
-                  },
-                  legend: {
-                    display: true,
-                    position: 'bottom',
-                  },
-                },
-              }}/>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="row" style={{ padding: 'inherit' }}>
-        <div className="col-md-6 card m-2" style={{ height: 'auto' }}>
-          <div
-            className="card-header text-center"
-            style={{
-              background: 'transparent',
-              fontSize: '25px',
-              fontWeight: 500,
-              border: 'none',
-            }}
-          >
-            Response time Comparison
-          </div>
-          <div className="card-body">
-            <Line data={resTimeData} 
-            options={{
-              plugins: {
-                title: {
-                  display: true,
-                  text: 'Response time Comparison',
-                },
-                legend: {
-                  display: true,
-                  position: 'bottom',
-                },
-              },
-            }}
-            />
-          </div>
-        </div>
-        <div className="col-md-6 card m-2" style={{ height: 'auto' }}>
+        <div className="card" style={{ height: '500px' }}>
           <div
             className="card-header text-center"
             style={{
@@ -329,8 +271,77 @@ export default function graph() {
               }}
             />
           </div>
+          </div>
         </div>
       </div>
+
+      <div className="row mb-4" style={{ padding: 'inherit' }}>
+        <div className="col-md-12">
+          <div className="card">
+          <div
+            className="card-header text-center"
+            style={{
+              background: 'transparent',
+              fontSize: '25px',
+              fontWeight: 500,
+              border: 'none',
+            }}
+          >
+            Response time Comparison
+          </div>
+          <div className="card-body">
+            <Line data={resTimeData} 
+            options={{
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Response time Comparison',
+                },
+                legend: {
+                  display: true,
+                  position: 'bottom',
+                },
+              },
+            }}
+            />
+          </div>
+          </div>
+        </div>   
+      </div>
+
+      <div className="row mb-4" style={{ padding: 'inherit' }}>
+        <div className="col-md-12" style={{ height: 'auto' }}>
+        <div className="card">
+          <div
+            className="card-header text-center"
+            style={{
+              background: 'transparent',
+              fontSize: '25px',
+              fontWeight: 500,
+              border: 'none',
+            }}
+          >
+            Latency Comparison
+          </div>
+          <div className="card-body">
+            <Line data={lateData} 
+            options={{
+              plugins: {
+                title: {
+                  display: true,
+                  text: 'Latency Comparison',
+                },
+                legend: {
+                  display: true,
+                  position: 'bottom',
+                },
+              }
+            }}/>
+          </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 }
