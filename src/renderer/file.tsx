@@ -216,6 +216,8 @@ export default function File() {
       reader.onloadend = () => {
         setProcessParams(apiList);
       };
+    } else {
+      alert('File type not supported, must be in excel or json format.');
     }
   };
 
