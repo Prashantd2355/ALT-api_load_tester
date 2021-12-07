@@ -1,7 +1,8 @@
 import { Bar, Line, Pie } from 'react-chartjs-2';
 import React from 'react';
 import { AppContext } from 'renderer/context';
-//import moment from 'moment';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function graph() {
 
@@ -51,19 +52,6 @@ export default function graph() {
       lateDiff  = Math.abs(lateDiff / 1000000);
 
       latencyAPIWise.push(lateDiff);
-
-      // let startAtMiliSec = startAtSec[0] * 1000 + startAtSec[1] / 1000000 ;
-      // let endAtMiliSec = endAtSec[0] * 1000 + endAtSec[1] / 1000000 ;
-      // console.log(startAtMiliSec - endAtMiliSec);
-      // Time in millisecond...
-      // console.log("Time in millisecond is: ", startAtSec[0] * 1000 + startAtSec[1] / 1000000)
-      // console.log("=========================="+moment(endAtMiliSec));
-      // console.log("=========================="+moment(startAtMiliSec));
-      // console.log("=========================="+moment(endAtMiliSec).diff(startAtMiliSec));
-      //Page Load Time (seconds)
-      //console.log(moment(startAtSec[1]/1000000).format('HH:mm:ss.SSSSSSSSS') );
-      //https://constellix.com/news/guide-to-site-performance-domain-latency
-      //https://jmeter.apache.org/usermanual/glossary.html
       
       if(statusCode != 200){
         noOfErrors++;
@@ -107,6 +95,7 @@ export default function graph() {
     testDuration = Math.round(Math.max(...unique));
   }
 
+  console.log(stn);
   let i = 0;
   Object.keys(stn).forEach((arkey) => {
     if(i >3){
@@ -114,16 +103,13 @@ export default function graph() {
     }
     let d = {label: 'status '+arkey, data: stn[arkey], fill: false, tension: 0.1, backgroundColor: colorArr[i], barThickness :20, spanGaps : 2};
     dtst.push(d);
+    console.log(dtst);
     i++;
   });
     
   let responseCodesData =  {
 		labels: lbl,
 		datasets: dtst,
-    // options: {
-    //   responsive: true, // Instruct chart js to respond nicely.
-    //   maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
-    // }
 	};
 
   lblRes = lblRes.filter((v, i, a) => a.indexOf(v) === i);
@@ -148,82 +134,117 @@ export default function graph() {
     }
 	};
 
+  function generatePDF(){
+    const input = document.getElementById('divToPrint')!;
+    html2canvas(input)
+      .then((canvas) => {
+        let imgWidth = 170;
+        let imgHeight = canvas.height * imgWidth / canvas.width;
+        const imgData = canvas.toDataURL('img/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        pdf.addImage(imgData, 'PNG', 20, 10, imgWidth, imgHeight);
+        pdf.save("download.pdf");
+      })
+    ;
+  }   
+
   return (
     <div>
-      <div className="row mb-4" style={{ padding: 'inherit' }}>
-        <div className="col-md-4">
-          <div className="card">
-            <div
-              className="card-header text-center"
-              style={{
-                background: 'transparent',
-                fontSize: '25px',
-                fontWeight: 500,
-                border: 'none',
-              }}
-            >
-              Number Of Requests
-            </div>
-            <div className="card-body text-center">
-              <span
-                className="text-purple"
-                style={{ fontSize: '50px', fontWeight: 400 }}
-              >
-                {noOfRequests}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="card">
-            <div
-              className="card-header text-center"
-              style={{
-                background: 'transparent',
-                fontSize: '25px',
-                fontWeight: 500,
-                border: 'none',
-              }}
-            >
-              Number Of Errors
-            </div>
-            <div className="card-body text-center">
-              <span
-                className="text-danger"
-                style={{ fontSize: '50px', fontWeight: 400 }}
-              >
-                {noOfErrors}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-4">
-          <div className="card">
-            <div
-              className="card-header text-center"
-              style={{
-                background: 'transparent',
-                fontSize: '25px',
-                fontWeight: 500,
-                border: 'none',
-              }}
-            >
-              Test Duration
-            </div>
-            <div className="card-body text-center">
-              <span
-                className="text-local-primary"
-                style={{ fontSize: '50px', fontWeight: 400 }}
-              >
-                {testDuration} ms
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <button className='float' onClick={generatePDF} value="Download ">PDF</button>
 
-      <div className="row mb-4" style={{ padding: 'inherit' }}>
-        <div className="col-md-4">
+      <div id="divToPrint">
+        <div className="row mb-4" style={{ padding: 'inherit' }}>
+          <div className="col-md-4">
+            <div className="card">
+              <div
+                className="card-header text-center"
+                style={{
+                  background: 'transparent',
+                  fontSize: '25px',
+                  fontWeight: 500,
+                  border: 'none',
+                }}
+              >
+                Number Of Requests
+              </div>
+              <div className="card-body text-center">
+                <span
+                  className="text-purple"
+                  style={{ fontSize: '50px', fontWeight: 400 }}
+                >
+                  {noOfRequests}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="card">
+              <div
+                className="card-header text-center"
+                style={{
+                  background: 'transparent',
+                  fontSize: '25px',
+                  fontWeight: 500,
+                  border: 'none',
+                }}
+              >
+                Number Of Errors
+              </div>
+              <div className="card-body text-center">
+                <span
+                  className="text-danger"
+                  style={{ fontSize: '50px', fontWeight: 400 }}
+                >
+                  {noOfErrors}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-4">
+            <div className="card">
+              <div
+                className="card-header text-center"
+                style={{
+                  background: 'transparent',
+                  fontSize: '25px',
+                  fontWeight: 500,
+                  border: 'none',
+                }}
+              >
+                Test Duration
+              </div>
+              <div className="card-body text-center">
+                <span
+                  className="text-local-primary"
+                  style={{ fontSize: '50px', fontWeight: 400 }}
+                >
+                  {testDuration} ms
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row mb-4" style={{ padding: 'inherit' }}>
+          <div className="col-md-4">
+            <div className="card" style={{ height: '500px' }}>
+              <div
+                className="card-header text-center"
+                style={{
+                  background: 'transparent',
+                  fontSize: '25px',
+                  fontWeight: 500,
+                  border: 'none',
+                }}
+              >
+                Requests Summary
+              </div>
+              <div className="card-body">
+                <Pie data={reqSum} />
+              </div>
+            </div>
+          </div>
+          <div className="col-md-8" style={{ height: 'auto' }}>
           <div className="card" style={{ height: '500px' }}>
             <div
               className="card-header text-center"
@@ -234,34 +255,50 @@ export default function graph() {
                 border: 'none',
               }}
             >
-               Requests Summary
+              Response codes per requests
             </div>
             <div className="card-body">
-              <Pie data={reqSum} />
+              <Bar
+                data={responseCodesData}
+                options={{
+                  plugins: {
+                    title: {
+                      display: true,
+                      text: 'Response codes per requests',
+                    },
+                    legend: {
+                      display: true,
+                      position: 'bottom',
+                    },
+                  },
+                }}
+              />
+            </div>
             </div>
           </div>
         </div>
-        <div className="col-md-8" style={{ height: 'auto' }}>
-        <div className="card" style={{ height: '500px' }}>
-          <div
-            className="card-header text-center"
-            style={{
-              background: 'transparent',
-              fontSize: '25px',
-              fontWeight: 500,
-              border: 'none',
-            }}
-          >
-            Response codes per requests
-          </div>
-          <div className="card-body">
-            <Bar
-              data={responseCodesData}
+
+        <div className="row mb-4" style={{ padding: 'inherit' }}>
+          <div className="col-md-12">
+            <div className="card">
+            <div
+              className="card-header text-center"
+              style={{
+                background: 'transparent',
+                fontSize: '25px',
+                fontWeight: 500,
+                border: 'none',
+              }}
+            >
+              Response time Comparison
+            </div>
+            <div className="card-body">
+              <Line data={resTimeData} 
               options={{
                 plugins: {
                   title: {
                     display: true,
-                    text: 'Response codes per requests',
+                    text: 'Response time Comparison',
                   },
                   legend: {
                     display: true,
@@ -269,75 +306,42 @@ export default function graph() {
                   },
                 },
               }}
-            />
-          </div>
-          </div>
+              />
+            </div>
+            </div>
+          </div>   
         </div>
-      </div>
 
-      <div className="row mb-4" style={{ padding: 'inherit' }}>
-        <div className="col-md-12">
+        <div className="row mb-4" style={{ padding: 'inherit' }}>
+          <div className="col-md-12" style={{ height: 'auto' }}>
           <div className="card">
-          <div
-            className="card-header text-center"
-            style={{
-              background: 'transparent',
-              fontSize: '25px',
-              fontWeight: 500,
-              border: 'none',
-            }}
-          >
-            Response time Comparison
-          </div>
-          <div className="card-body">
-            <Line data={resTimeData} 
-            options={{
-              plugins: {
-                title: {
-                  display: true,
-                  text: 'Response time Comparison',
-                },
-                legend: {
-                  display: true,
-                  position: 'bottom',
-                },
-              },
-            }}
-            />
-          </div>
-          </div>
-        </div>   
-      </div>
-
-      <div className="row mb-4" style={{ padding: 'inherit' }}>
-        <div className="col-md-12" style={{ height: 'auto' }}>
-        <div className="card">
-          <div
-            className="card-header text-center"
-            style={{
-              background: 'transparent',
-              fontSize: '25px',
-              fontWeight: 500,
-              border: 'none',
-            }}
-          >
-            Latency Comparison
-          </div>
-          <div className="card-body">
-            <Line data={lateData} 
-            options={{
-              plugins: {
-                title: {
-                  display: true,
-                  text: 'Latency Comparison',
-                },
-                legend: {
-                  display: true,
-                  position: 'bottom',
-                },
-              }
-            }}/>
-          </div>
+            <div
+              className="card-header text-center"
+              style={{
+                background: 'transparent',
+                fontSize: '25px',
+                fontWeight: 500,
+                border: 'none',
+              }}
+            >
+              Latency Comparison
+            </div>
+            <div className="card-body">
+              <Line data={lateData} 
+              options={{
+                plugins: {
+                  title: {
+                    display: true,
+                    text: 'Latency Comparison',
+                  },
+                  legend: {
+                    display: true,
+                    position: 'bottom',
+                  },
+                }
+              }}/>
+            </div>
+            </div>
           </div>
         </div>
       </div>
