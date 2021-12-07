@@ -9,24 +9,25 @@ import Helper from './helper';
 import './App.css';
 import './bootstrap-local.min.css';
 import { AppProvider } from './context';
-
+import { ToastProvider } from 'react-toast-notifications';
 export default function App() {
-
   return (
     <>
       <AppProvider>
-        <Router>
-          <Nav />
-          <div className="main">
-            <Switch>
-              <Route path="/process" component={Process} />
-              <Route path="/file" component={File} />
-              <Route path="/graph" component={graph} />
-              <Route path="/help" component={Helper} />
-              <Route path="/" component={File} />
-            </Switch>
-          </div>
-        </Router>
+        <ToastProvider>
+          <Router>
+            <Nav />
+            <div className="main">
+              <Switch>
+                <Route path="/process" component={Process} />
+                <Route path="/file" component={File} />
+                <Route path="/graph" component={graph} />
+                <Route path="/help" component={Helper} />
+                <Route path="/" component={File} />
+              </Switch>
+            </div>
+          </Router>
+        </ToastProvider>
       </AppProvider>
     </>
   );
