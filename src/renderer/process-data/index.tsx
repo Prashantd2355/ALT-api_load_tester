@@ -19,12 +19,14 @@ export default function Process() {
   const history = useHistory();
 
   const processUrl = async () => {
+    debugger;
     if (
-      url === '' ||
-      method === '' ||
-      body === '{}' ||
-      header === '{}' ||
-      requests === 0
+      (url === '' ||
+        method === '' ||
+        requests === 0 ||
+        body === '{}' ||
+        header === '{}') &&
+      !state.isBulk
     ) {
       addToast(<div>Invalid Parameters</div>, {
         appearance: 'error',
