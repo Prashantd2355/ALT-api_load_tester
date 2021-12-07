@@ -1,11 +1,13 @@
 // eslint-disable @typescript-eslint/no-explicit-any
 import { InputGroup, FormControl, Form } from 'react-bootstrap';
+import { useToasts } from 'react-toast-notifications';
 import React, { useState, useMemo } from 'react';
 import { AppContext } from 'renderer/context';
 import { useHistory } from 'react-router-dom';
 import Table from './Table';
 
 export default function Process() {
+  const { addToast } = useToasts();
   const { state, dispatch } = React.useContext(AppContext);
   const [responseData, setResponseData] = useState<any[]>([]);
   const [url, setUrl] = useState('');
@@ -17,49 +19,65 @@ export default function Process() {
   const history = useHistory();
 
   const processUrl = async () => {
-    let results;
-    dispatch({
-      type: 'toggleLoader',
-      payload: true,
-    });
-    if (state.isBulk) {
-      results = await window.electronAPI.processData(state.isBulk, state.data);
-    } else {
-      results = await window.electronAPI.processData(state.isBulk, [
-        {
-          url,
-          method,
-          body,
-          header,
-          requests,
-        },
-      ]);
-      const newColumns: any[] = [];
-      Object.keys(results[0][0]).forEach((key) => {
-        newColumns.push({
-          Header: key.toUpperCase(),
-          accessor: key,
-        });
+    if (
+      url === '' ||
+      method === '' ||
+      body === '{}' ||
+      header === '{}' ||
+      requests === 0
+    ) {
+      addToast(<div>Invalid Parameters</div>, {
+        appearance: 'error',
+        autoDismiss: true,
       });
-      setColumns(newColumns);
-    }
-    const newResult = results.map((r: any) => {
-      return r;
-    });
-    console.log(newResult);
+    } else {
+      let results;
+      dispatch({
+        type: 'toggleLoader',
+        payload: true,
+      });
+      if (state.isBulk) {
+        results = await window.electronAPI.processData(
+          state.isBulk,
+          state.data
+        );
+      } else {
+        results = await window.electronAPI.processData(state.isBulk, [
+          {
+            url,
+            method,
+            body,
+            header,
+            requests,
+          },
+        ]);
+        const newColumns: any[] = [];
+        Object.keys(results[0][0]).forEach((key) => {
+          newColumns.push({
+            Header: key.toUpperCase(),
+            accessor: key,
+          });
+        });
+        setColumns(newColumns);
+      }
+      const newResult = results.map((r: any) => {
+        return r;
+      });
+      console.log(newResult);
 
-    setResponseData(newResult);
-    dispatch({
-      type: 'appendResponse',
-      payload: results,
-    });
-    dispatch({
-      type: 'toggleLoader',
-      payload: false,
-    });
-    // to go to graph page
-    const path = `/graph`;
-    history.push(path);
+      setResponseData(newResult);
+      dispatch({
+        type: 'appendResponse',
+        payload: results,
+      });
+      dispatch({
+        type: 'toggleLoader',
+        payload: false,
+      });
+      // to go to graph page
+      const path = `/graph`;
+      history.push(path);
+    }
   };
   useMemo(() => {
     if (state.data.length) {
