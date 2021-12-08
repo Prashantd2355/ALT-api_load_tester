@@ -39,7 +39,7 @@ export default function File() {
   // method to validate if the input header/body are valid json
   function isValidJSON(str: string) {
     try {
-      JSON.parse(str);
+      JSON.parse(JSON.stringify(str));
       return true;
     } catch (e) {
       return false;
@@ -141,6 +141,7 @@ export default function File() {
             alert(`Method name not valid: ${method}`);
           }
 
+          debugger;
           // validate header
           if (!isValidJSON(headers)) {
             alert(`Header not valid: ${headers}`);
