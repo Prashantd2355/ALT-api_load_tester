@@ -31,7 +31,7 @@ npm run package
 - [Dharmil Parekh](https://github.com/dVp007)
 - [Kishor Bikram Oli](https://github.com/geekishor)
 - [Ruchi Padhiyar](https://github.com/rajputruchi12)
-- [Prashant D](https://github.com/Prashantd2355)
+- [Prashant Dhameliya](https://github.com/Prashantd2355)
 
 ## License
 
